@@ -15,7 +15,7 @@ function App() {
     setPlayer2(0);
   };
 
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:10000';
 
   useEffect(() => {
     fetch(`${BACKEND_URL}/scores`)
