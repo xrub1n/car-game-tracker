@@ -4,17 +4,6 @@ import './App.css';
 function App() {
   const [player1, setPlayer1] = useState(0);
   const [player2, setPlayer2] = useState(0);
-
-
-  useEffect(() => {
-    fetch('http://localhost:5000/scores')
-      .then(res => res.json())
-      .then(data => {
-        setPlayer1(data.player1 || 0);
-        setPlayer2(data.player2 || 0);
-      });
-  }, []);
-
   
   const addPoints = (player, points) => {
     if (player === 1) setPlayer1(prev => prev + points);
@@ -26,16 +15,27 @@ function App() {
     setPlayer2(0);
   };
 
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+
+  useEffect(() => {
+    fetch(`${BACKEND_URL}/scores`)
+      .then(res => res.json())
+      .then(data => {
+        setPlayer1(data.player1 || 0);
+        setPlayer2(data.player2 || 0);
+      });
+  }, []);
+
   const sendScores = async () => {
     try {
-      const response = await fetch('http://localhost:5000/scores', {
-        method: 'PUT', // or 'PUT' if you're updating existing scores
+      const response = await fetch(`${BACKEND_URL}/scores`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ player1, player2 }),
       });
-  
+
       if (!response.ok) throw new Error('Failed to send scores');
       alert('Scores synced!');
     } catch (error) {
@@ -43,7 +43,8 @@ function App() {
       alert('Failed to sync scores.');
     }
   };
-  
+
+
 
   return (
     <div className="app">
