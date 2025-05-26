@@ -1,5 +1,6 @@
 from flask_restful import Resource
-from flask_restful import request
+from flask import request
+
 
 from .score import getScore, updateScore
 from .swen_344_db_utils import *
@@ -14,6 +15,7 @@ class Scores(Resource):
     
     def put(self):
         data = request.get_json(force=True)
+        print("PUT /scores received data:", data)
         score1 = data.get('player1')
         score2 = data.get('player2')
 
