@@ -11,6 +11,11 @@ CORS(app)
 
 api = Api(app) #api router
 
+@app.route('/')
+def index():
+    return "Welcome to the Score Tracker API! Use /scores endpoint."
+
+
 api.add_resource(Scores,'/scores')
 
 
