@@ -2,7 +2,7 @@ import psycopg2
 import yaml
 import os
 
-def connect():
+def connect_old():
     config = {}
     yml_path = os.path.join(os.path.dirname(__file__), 'db.yml')
     with open(yml_path, 'r') as file:
@@ -13,6 +13,15 @@ def connect():
                             password=config['password'],
                             host=config['host'],
                             port=config['port'])
+
+def connect():
+    return psycopg2.connect(
+        dbname=os.environ['DB_NAME'],
+        user=os.environ['DB_USER'],
+        password=os.environ['DB_PASSWORD'],
+        host=os.environ['DB_HOST'],
+        port=os.environ['DB_PORT']
+    )
 
 def exec_sql_file(path):
     full_path = os.path.join(os.path.dirname(__file__), f'{path}')
